@@ -1,1 +1,1 @@
-FROM mbrandalero/riscv-gnu-toolchain
+FROM mbrandalero/riscv-gnu-toolchain:latest
