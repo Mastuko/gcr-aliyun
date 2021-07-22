@@ -26,7 +26,8 @@ RUN apt-get update \
     zlib1g-dev \
     libexpat-dev \
     device-tree-compiler \
-    pkg-config
+    pkg-config \
+    2>&1 >/dev/null
     
 # Set ENV
 ENV RISCV /opt/riscv
