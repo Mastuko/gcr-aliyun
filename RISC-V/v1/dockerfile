@@ -38,7 +38,14 @@ RUN git clone https://github.com/riscv/riscv-tools.git && \
   cd riscv-tools && git submodule update --init --recursive
 
 WORKDIR $RISCV/riscv-tools
-RUN ./build.sh
+
+RUN git clone https://github.com/riscv/riscv-gnu-toolchain \
+    && cd $RISCV/riscv-tools/riscv-gnu-toolchain \
+    && ./configure --prefix=$RISCV \
+    && make linux \
+    
+WORKDIR $RISCV/riscv-tools
+RUN ls $RISCV && ./build.sh
 
 
 RUN mkdir -p $RISCV/test
@@ -47,20 +54,6 @@ RUN echo '#include <stdio.h>\n int main(void) { printf("Hello \
   world!\\n"); return 0; }' > hello.c && \
   riscv64-unknown-elf-gcc -o hello hello.c && spike pk hello
   
-WORKDIR $RISCV/riscv-tools
 
-RUN git clone https://github.com/riscv/riscv-gnu-toolchain \
-    && cd $RISCV/riscv-tools/riscv-gnu-toolchain \
-    && ./configure --prefix=$RISCV \
-    && make linux \
-    && rm -rf \
-    build-binutils-linux \
-    build-gcc-linux-stage1 \
-    build-gcc-linux-stage2 \
-    build-glibc-linux-headers \
-    build-glibc-linux64 \
-    src \
-    build/src \
-    stamps
 
     
