@@ -1,1 +1,1 @@
-FROM cksystemsteaching/riscv-tools:latest
+FROM tuxmake/riscv_gcc:latest
