@@ -1,2 +1,64 @@
-From ucbbar/riscv-docker-images:b266e97-3_922-1.0.1
-MAINTAINER mastuko <2513244115@qq.com>
+From ubuntu:xenial
+
+MAINTAINER mastuko <wqh21@mails.tsinghua.edu.cn>
+
+# Install neccessary library
+RUN apt-get update \
+    && apt-get install -y git \
+    autoconf \
+    automake \
+    autotools-dev \
+    curl \
+    python3 \
+    libmpc-dev \
+    libmpfr-dev \
+    libgmp-dev \
+    libusb-1.0-0-dev \
+    gawk \
+    build-essential \
+    bison \
+    flex \
+    texinfo \
+    gperf \
+    libtool \
+    patchutils \
+    bc \
+    zlib1g-dev \
+    libexpat-dev \
+    device-tree-compiler \
+    pkg-config
+    
+# Set ENV
+ENV RISCV /opt/riscv
+RUN mkdir -p $RISCV
+ENV PATH $RISCV/bin:$PATH
+WORKDIR $RISCV
+RUN git clone https://github.com/riscv/riscv-tools.git && \
+  cd riscv-tools && git submodule update --init --recursive
+
+WORKDIR $RISCV/riscv-tools
+
+
+RUN mkdir -p $RISCV/test
+WORKDIR $RISCV/test
+RUN echo '#include <stdio.h>\n int main(void) { printf("Hello \
+  world!\\n"); return 0; }' > hello.c && \
+  riscv64-unknown-elf-gcc -o hello hello.c && spike pk hello
+  
+WORKDIR $RISCV/riscv-tools
+
+RUN git clone https://github.com/riscv/riscv-gnu-toolchain \
+    && cd $RISCV/riscv-tools/riscv-gnu-toolchain \
+    && ./configure --prefix=$RISCV \
+    && make linux
+    && rm -rf \
+    build-binutils-linux \
+    build-gcc-linux-stage1 \
+    build-gcc-linux-stage2 \
+    build-glibc-linux-headers \
+    build-glibc-linux64 \
+    src \
+    build/src \
+    stamps
+
+    
