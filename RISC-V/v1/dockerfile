@@ -41,7 +41,8 @@ WORKDIR $RISCV/riscv-tools
 
 RUN git clone https://github.com/riscv/riscv-gnu-toolchain \
     && cd $RISCV/riscv-tools/riscv-gnu-toolchain \
-    && ./configure --prefix=$RISCV \
+    && sed -i 's/= git/= https/' .gitmodules
+RUN ./configure --prefix=$RISCV \
     && make linux
     
 WORKDIR $RISCV/riscv-tools
