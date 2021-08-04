@@ -4,7 +4,7 @@ RUN apt-get update \
     && pip3 install cocotb pytest pyelftools \
     && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH=$PATH:$HOME/.cargo/bin
-RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME'
+RUN /bin/bash -c 'source $HOME/.cargo/env; echo $HOME'
 RUN rustup install -y nightly \
     && cargo +nightly install racer \
     && cargo install --force rustfmt \
