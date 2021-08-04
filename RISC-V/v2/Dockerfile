@@ -6,7 +6,7 @@ RUN apt-get update \
 ENV PATH=$PATH:$HOME/.cargo/bin
 RUN /bin/bash -c 'source $HOME/.cargo/env; echo $HOME'
 RUN /bin/bash -c '/root/.cargo/bin/rustup self update' \
-    && /bin/bash -c '/root/.cargo/bin/rustup install -y nightly' \
+    && /bin/bash -c '/root/.cargo/bin/rustup install nightly' \
     && /bin/bash -c '/root/.cargo/bin/cargo +nightly install racer' \
     && /bin/bash -c '/root/.cargo/bin/cargo install --force rustfmt' \
     && /bin/bash -c '/root/.cargo/bin/cargo install --force rls' \
