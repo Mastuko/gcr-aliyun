@@ -5,10 +5,10 @@ RUN apt-get update \
     && /bin/bash -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
 ENV PATH=$PATH:$HOME/.cargo/bin
 RUN /bin/bash -c 'source $HOME/.cargo/env; echo $HOME'
-RUN /bin/bash -c 'rustup install -y nightly' \
-    && /bin/bash -c 'cargo +nightly install racer' \
-    && /bin/bash -c 'cargo install --force rustfmt' \
-    && /bin/bash -c 'cargo install --force rls' \
-    && /bin/bash -c 'rustup component add rls-preview' \
-    && /bin/bash -c 'rustup component add rust-analysis' \
-    && /bin/bash -c 'rustup component add rust-src'
+RUN /bin/bash -c '/root/.cargo/bin/rustup install -y nightly' \
+    && /bin/bash -c '/root/.cargo/bin/cargo +nightly install racer' \
+    && /bin/bash -c '/root/.cargo/bin/cargo install --force rustfmt' \
+    && /bin/bash -c '/root/.cargo/bin/cargo install --force rls' \
+    && /bin/bash -c '/root/.cargo/bin/rustup component add rls-preview' \
+    && /bin/bash -c '/root/.cargo/bin/rustup component add rust-analysis' \
+    && /bin/bash -c '/root/.cargo/bin/rustup component add rust-src'
