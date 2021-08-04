@@ -1,6 +1,6 @@
 FROM mmoy/riscv-latex-python
 RUN apt-get update \
-    && apt-get install vim autoconf automake autotools-dev make gcc g++ python3 python3-dev python3-pip gtkwave
+    && apt-get install -y vim autoconf automake autotools-dev make gcc g++ python3 python3-dev python3-pip gtkwave
 RUN pip3 install cocotb pytest pyelftools
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh \
     && rustup install nightly \
