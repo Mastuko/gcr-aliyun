@@ -52,12 +52,5 @@ WORKDIR $RISCV/riscv-tools
 RUN ls $RISCV && ./build.sh
 
 
-RUN mkdir -p $RISCV/test
-WORKDIR $RISCV/test
-RUN echo '#include <stdio.h>\n int main(void) { printf("Hello \
-  world!\\n"); return 0; }' > hello.c && \
-  riscv64-unknown-elf-gcc -o hello hello.c && spike pk hello
-  
-
 
     
