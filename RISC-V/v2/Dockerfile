@@ -1,4 +1,4 @@
-From ubuntu:20.04
+From ubuntu:16.04
 
 MAINTAINER mastuko <wqh21@mails.tsinghua.edu.cn>
 # Install neccessary library
@@ -26,6 +26,7 @@ RUN apt-get update \
     libexpat-dev \
     device-tree-compiler \
     pkg-config \
+    libexpat-dev \
     2>&1 >/dev/null
     
 # Set ENV
@@ -59,7 +60,6 @@ ENV PATH $RISCV/riscv64-gnu-toolchain/bin:$PATH
 # ENV PATH $RISCV/riscv32-gnu-toolchain/bin:$PATH
 # ENV PATH $RISCV/riscv32-gnu-toolchain/riscv32-unknown-linux-gnu/bin:$PATH
 
-RUN  apt-get install -y autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev
 ENV PATH /usr/bin:$PATH
 WORKDIR $RISCV/riscv-tools
 RUN ls $RISCV && ./build.sh
