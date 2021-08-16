@@ -1,7 +1,6 @@
-From ubuntu:xenial
+From ubuntu:20.04
 
 MAINTAINER mastuko <wqh21@mails.tsinghua.edu.cn>
-
 # Install neccessary library
 RUN apt-get update \
     && apt-get install -y git \
@@ -45,12 +44,22 @@ RUN git clone https://github.com/riscv/riscv-gnu-toolchain \
     
 WORKDIR $RISCV/riscv-tools/riscv-gnu-toolchain
 
-RUN ./configure --prefix=$RISCV \
-    && make linux
-    
+RUN mkdir -p $RISCV/riscv64-gnu-toolchain \
+    && ./configure --prefix=$RISCV/riscv64-gnu-toolchain \
+    && make
+
+ENV PATH $RISCV/riscv64-gnu-toolchain:$PATH
+ENV PATH $RISCV/riscv64-gnu-toolchain/bin:$PATH
+
+# RUN mkdir -p $RISCV/riscv32-gnu-toolchain \
+#     && ./configure --prefix=$RISCV/riscv32-gnu-toolchain --with-arch=rv32gc --with-abi=ilp32d \
+#     && make linux
+
+# ENV PATH $RISCV/riscv32-gnu-toolchain:$PATH
+# ENV PATH $RISCV/riscv32-gnu-toolchain/bin:$PATH
+# ENV PATH $RISCV/riscv32-gnu-toolchain/riscv32-unknown-linux-gnu/bin:$PATH
+
+RUN  apt-get install -y autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev
+ENV PATH /usr/bin:$PATH
 WORKDIR $RISCV/riscv-tools
 RUN ls $RISCV && ./build.sh
-
-
-
-    
