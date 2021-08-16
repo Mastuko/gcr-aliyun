@@ -1,14 +1,67 @@
-FROM mmoy/riscv-latex-python
+From ubuntu:20.04
+
+MAINTAINER mastuko <wqh21@mails.tsinghua.edu.cn>
+ENV http_proxy=http://127.0.0.1:7890
+ENV https_proxy=http://127.0.0.1:7890
+# Install neccessary library
 RUN apt-get update \
-    && apt-get install -y curl vim autoconf automake autotools-dev make gcc g++ python3 python3-dev python3-pip gtkwave \
-    && pip3 install cocotb pytest pyelftools \
-    && /bin/bash -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y" \
-    && /bin/bash -c 'source $HOME/.cargo/env; echo $HOME' \
-    && /bin/bash -c '/root/.cargo/bin/rustup self update' \
-    && /bin/bash -c '/root/.cargo/bin/rustup install nightly' \
-    && /bin/bash -c '/root/.cargo/bin/cargo +nightly install racer' \
-    && /bin/bash -c '/root/.cargo/bin/cargo install --force rustfmt' \
-    && /bin/bash -c '/root/.cargo/bin/cargo install --force rls' \
-    && /bin/bash -c '/root/.cargo/bin/rustup component add rls-preview' \
-    && /bin/bash -c '/root/.cargo/bin/rustup component add rust-analysis' \
-    && /bin/bash -c '/root/.cargo/bin/rustup component add rust-src'
+    && apt-get install -y git \
+    autoconf \
+    automake \
+    autotools-dev \
+    curl \
+    python3 \
+    libmpc-dev \
+    libmpfr-dev \
+    libgmp-dev \
+    libusb-1.0-0-dev \
+    gawk \
+    build-essential \
+    bison \
+    flex \
+    texinfo \
+    gperf \
+    libtool \
+    patchutils \
+    bc \
+    zlib1g-dev \
+    libexpat-dev \
+    device-tree-compiler \
+    pkg-config \
+    2>&1 >/dev/null
+    
+# Set ENV
+ENV RISCV /opt/riscv
+RUN mkdir -p $RISCV
+ENV PATH $RISCV/bin:$PATH
+WORKDIR $RISCV
+RUN git clone https://github.com/riscv/riscv-tools.git && \
+  cd riscv-tools && git submodule update --init --recursive
+
+WORKDIR $RISCV/riscv-tools
+
+RUN git clone https://github.com/riscv/riscv-gnu-toolchain \
+    && cd $RISCV/riscv-tools/riscv-gnu-toolchain \
+    && sed -i 's/= git/= https/' .gitmodules
+    
+WORKDIR $RISCV/riscv-tools/riscv-gnu-toolchain
+
+RUN mkdir -p $RISCV/riscv64-gnu-toolchain \
+    && ./configure --prefix=$RISCV/riscv64-gnu-toolchain \
+    && make
+
+ENV PATH $RISCV/riscv64-gnu-toolchain:$PATH
+ENV PATH $RISCV/riscv64-gnu-toolchain/bin:$PATH
+
+# RUN mkdir -p $RISCV/riscv32-gnu-toolchain \
+#     && ./configure --prefix=$RISCV/riscv32-gnu-toolchain --with-arch=rv32gc --with-abi=ilp32d \
+#     && make linux
+
+# ENV PATH $RISCV/riscv32-gnu-toolchain:$PATH
+# ENV PATH $RISCV/riscv32-gnu-toolchain/bin:$PATH
+# ENV PATH $RISCV/riscv32-gnu-toolchain/riscv32-unknown-linux-gnu/bin:$PATH
+
+RUN  apt-get install -y autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev
+ENV PATH /usr/bin:$PATH
+WORKDIR $RISCV/riscv-tools
+RUN ls $RISCV && ./build.sh
