@@ -1,4 +1,4 @@
-From ubuntu:20.04
+From ubuntu:16.04
 
 ENV PATH /usr/bin:$PATH
 MAINTAINER mastuko <wqh21@mails.tsinghua.edu.cn>
