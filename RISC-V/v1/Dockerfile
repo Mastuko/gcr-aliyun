@@ -2,8 +2,7 @@ From ubuntu:20.04
 
 ENV PATH /usr/bin:$PATH
 MAINTAINER mastuko <wqh21@mails.tsinghua.edu.cn>
-ENV http_proxy=http://127.0.0.1:7890
-ENV https_proxy=http://127.0.0.1:7890
+
 # Install neccessary library
 RUN apt-get update \
     && apt-get install -y git \
