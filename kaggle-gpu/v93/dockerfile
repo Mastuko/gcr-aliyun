@@ -1,7 +1,8 @@
-FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
+# FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
+FROM quay.io/elyra/pytorch
 ENV LANG C.UTF-8
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
-    PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
+    PIP_INSTALL="python -m pip -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir install --upgrade" && \
     GIT_CLONE="git clone --depth 10" && \
     rm -rf /var/lib/apt/lists/* \
            /etc/apt/sources.list.d/cuda.list \
@@ -52,10 +53,10 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ==================================================================
 # jupyter
 # ------------------------------------------------------------------
-    $PIP_INSTALL \
-        jupyter \
-        jupyterhub \
-        && \
+#    $PIP_INSTALL \
+#        jupyter \
+#        jupyterhub \
+#        && \
 # ==================================================================
 # pytorch
 # ------------------------------------------------------------------
@@ -80,9 +81,9 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ==================================================================
 # jupyterlab
 # ------------------------------------------------------------------
-    $PIP_INSTALL \
-        jupyterlab \
-        && \
+#    $PIP_INSTALL \
+#        jupyterlab \
+#        && \
 # ==================================================================
 # config & cleanup
 # ------------------------------------------------------------------
@@ -90,4 +91,4 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get clean && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /tmp/* ~/*
-EXPOSE 8888 6006
+# EXPOSE 8888 6006
