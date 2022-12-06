@@ -1,5 +1,5 @@
-# FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
-FROM quay.io/elyra/pytorch:1.4-cuda10.1-cudnn7-devel
+FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
+# FROM quay.io/elyra/pytorch:1.4-cuda10.1-cudnn7-devel
 ENV LANG C.UTF-8
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     PIP_INSTALL="python -m pip --no-cache-dir install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade" && \
@@ -53,10 +53,10 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ==================================================================
 # jupyter
 # ------------------------------------------------------------------
-#    $PIP_INSTALL \
-#        jupyter \
-#        jupyterhub \
-#        && \
+   $PIP_INSTALL \
+       jupyter \
+       jupyterhub \
+       && \
 # ==================================================================
 # pytorch
 # ------------------------------------------------------------------
@@ -81,9 +81,15 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ==================================================================
 # jupyterlab
 # ------------------------------------------------------------------
-#    $PIP_INSTALL \
-#        jupyterlab \
-#        && \
+    $PIP_INSTALL \
+        jupyterlab \
+        && \
+# ==================================================================
+# Elyra
+# ------------------------------------------------------------------
+    $PIP_INSTALL \
+        elyra && jupyter lab build \
+        && \
 # ==================================================================
 # config & cleanup
 # ------------------------------------------------------------------
