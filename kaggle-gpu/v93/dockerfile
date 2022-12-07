@@ -2,7 +2,7 @@ FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
 # FROM quay.io/elyra/pytorch:1.4-cuda10.1-cudnn7-devel
 ENV LANG C.UTF-8
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
-    PIP_INSTALL="python -m pip --no-cache-dir install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade" && \
+    PIP_INSTALL="python -m pip --no-cache-dir install -i https://mirrors.aliyun.com/pypi/simple --upgrade" && \
     GIT_CLONE="git clone --depth 10" && \
     rm -rf /var/lib/apt/lists/* \
            /etc/apt/sources.list.d/cuda.list \
