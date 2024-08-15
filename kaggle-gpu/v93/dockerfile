@@ -1,1 +1,1 @@
-FROM qfortier/mp2i:3.0.2
+FROM gcr.io/kaggle-gpu-images/python
